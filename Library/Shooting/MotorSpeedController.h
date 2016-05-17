@@ -100,13 +100,11 @@ void ShootingControl(){
 void ShootingConfigControl(){
 	if(vexRT[JoystickLongShootBtn]){
 		SetLongShoot();
-		playTone(1700,30);
-		sleep(300);
+		if(!bSoundActive) playTone(1700,300);
 	}
 	else if(vexRT[JoystickShortShootBtn]){
 		SetShortShoot();
-		playTone(1300,30);
-		sleep(300);
+		if(!bSoundActive) playTone(1300,300);
 	}
 	else if(vexRT[JoystickAutoShootBtn]){
 		autoShoot = !autoShoot;
