@@ -68,9 +68,12 @@ void AutonomousShooting(float time){
 task ShootingBrakeTask(){
 	motor[ShootingLeft] = -10;
 	motor[ShootingRight] = -10;
+	motor[ExtendShootingLeft] = -6;
+	motor[ExtendShootingRight] = -6;
 	while(1){
-		if(SensorValue[ShootingEncoder] < 5) break;
-		SensorValue[ShootingEncoder] = 0;
+		if(SensorValue[ShootingEncoderLeft] < 5 && SensorValue[ShootingEncoderRight] < 5) break;
+		SensorValue[ShootingEncoderLeft] = 0;
+		SensorValue[ShootingEncoderRight] = 0;
 		sleep(50);
 	}
 	motor[ShootingLeft] = 0;

@@ -1,31 +1,43 @@
 #include "PIDLibrary.h"
 PIDConfigure* shootingConfigure;
-MotorSpeedController shootingController;
+MotorSpeedController leftShootingController;
+MotorSpeedController rightShootingController;
 int shootingMode;
-float MotorLongTargetPower = 42;
-float MotorShortTargetPower = 30;
+float LeftMotorLongTargetPower = 42;
+float RightMotorLongTargetPower = 42;
+float LeftMotorShortTargetPower = 35;
+float RightMotorShortTargetPower = 35;
 void SetLongShoot(){
 	shootingConfigure->p = LongShootP;
 	shootingConfigure->targetSpeed = LongShootTargetSpeed;
-	shootingController.targetPower = &MotorLongTargetPower;
+	leftShootingController.targetPower = &LeftMotorLongTargetPower;
+	rightShootingController.targetPower = &RightMotorLongTargetPower;
 	shootingMode = 0;
 }
 void SetShortShoot(){
 	shootingConfigure->p = ShortShootP;
 	shootingConfigure->targetSpeed = ShortShootTargetSpeed;
-	shootingController.targetPower = &MotorShortTargetPower;
+	leftShootingController.targetPower = &LeftMotorShortTargetPower;
+	rightShootingController.targetPower = &RightMotorShortTargetPower;
 	shootingMode = 1;
 }
 bool autoShoot = false;
 void ShootingInit(){
 	shootingConfigure = NewPIDConfigure(ShortShootP,0,0,2);
 
-	shootingController.configure = shootingConfigure;
-	shootingController.motor = ShootingRight;
-	shootingController.extendMotor = ShootingLeft;
-	shootingController.lastError = 0;
-	shootingController.encoder = ShootingEncoder;
-	KalmanFilterInit(&shootingController.filterState,0,5);
+	leftShootingController.configure = shootingConfigure;
+	leftShootingController.motor = ShootingLeft;
+	leftShootingController.extendMotor = ExtendShootingLeft;
+	leftShootingController.lastError = 0;
+	leftShootingController.encoder = ShootingEncoderLeft;
+	KalmanFilterInit(&leftShootingController.filterState,0,5);
+
+	rightShootingController.configure = shootingConfigure;
+	rightShootingController.motor = ShootingRight;
+	rightShootingController.extendMotor = ExtendShootingRight;
+	rightShootingController.lastError = 0;
+	rightShootingController.encoder = ShootingEncoderRight;
+	KalmanFilterInit(&rightShootingController.filterState,0,5);
 
 	SetShortShoot();
 }
@@ -34,8 +46,9 @@ void ShootingControl(){
 	if( getTimer(T1,milliseconds) >= 50){//1
 		if(vexRT[JoystickManuShootBtn] || autoShoot){//2
 			//clearDebugStream();
-			MotorSpeedControllerRefresh(&shootingController,!(autoShoot || vexRT[JoystickGettingBallsBtn]));
-			if(MotorSpeedControllerInRange(&shootingController)){//3
+			MotorSpeedControllerRefresh(&leftShootingController,!(autoShoot || vexRT[JoystickGettingBallsBtn]));
+			MotorSpeedControllerRefresh(&rightShootingController,!(autoShoot || vexRT[JoystickGettingBallsBtn]));
+			if(MotorSpeedControllerInRange(&leftShootingController) && MotorSpeedControllerInRange(&rightShootingController)){//3
 				//The shooting wheels are ready
 				playTone(1000,5);//Beep
 				if(autoShoot){
@@ -58,15 +71,24 @@ void ShootingControl(){
 		}//2
 		else{
 			if(shootingBrake){
-				if(SensorValue[ShootingEncoder] >= 5) {
+				if(SensorValue[ShootingEncoderLeft] >= 5) {
 					motor[ShootingLeft] = -6;
-					motor[ShootingRight] = -6;
+					motor[ExtendShootingLeft] = -6;
 				}
 				else {
 					motor[ShootingLeft] = 0;
-					motor[ShootingRight] = 0;
+					motor[ExtendShootingLeft] = 0;
 				}
-				SensorValue[ShootingEncoder] = 0;
+				if(SensorValue[ShootingEncoderRight] >= 5) {
+					motor[ShootingRight] = -6;
+					motor[ExtendShootingRight] = -6;
+				}
+				else {
+					motor[ShootingRight] = 0;
+					motor[ExtendShootingRight] = 0;
+				}
+				SensorValue[ShootingEncoderLeft] = 0;
+				SensorValue[ShootingEncoderRight] = 0;
 			}
 
 		}

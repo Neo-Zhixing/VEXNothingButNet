@@ -45,7 +45,7 @@ void MotorSpeedControllerRefresh(MotorSpeedController* controller,bool calibrate
 	motor[controller->extendMotor] = power;
 	controller->power = power;
 
-	if(abs(error) >= 1 &&abs(error) < 4 && calibrate)*(controller->targetPower) += (1/error) * 0.3;
+	if(abs(error) >= 1 &&abs(error) < 3 && calibrate)*(controller->targetPower) += (1/error) * 0.05;
 	writeDebugStreamLine("%f|%f|%f|%f|%f|%d",error,power,sensorValue,rawValue,*(controller->targetPower),calibrate);
 }
 

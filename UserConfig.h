@@ -1,9 +1,7 @@
-const float EncoderScaledValue = 0.2;
-const TVexJoysticks JoystickRisingUpBtn = Btn8U;
-const TVexJoysticks JoystickRisingDownBtn = Btn8D;
+const float EncoderScaledValue = 0.333333333;
 
-const float LongShootTargetSpeed = 70;
-const float ShortShootTargetSpeed = 53;
+const float LongShootTargetSpeed = 71;
+const float ShortShootTargetSpeed = 61;
 
 const float ShortShootP = 0.4;
 const float LongShootP = 0.4;
@@ -12,7 +10,7 @@ const TVexJoysticks JoystickAutoShootBtn = Btn5D;
 const TVexJoysticks JoystickManuShootBtn = Btn5U;
 
 const TVexJoysticks JoystickLongShootBtn = Btn7U;
-const TVexJoysticks JoystickShortShootBtn = Btn7D;
+const TVexJoysticks JoystickShortShootBtn = Btn7L;
 
 const TVexJoysticks JoystickGettingBallsBtn = Btn6U;
 const TVexJoysticks JoystickLosingBallsBtn = Btn6D;

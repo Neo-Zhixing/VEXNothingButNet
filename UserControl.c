@@ -1,31 +1,3 @@
-bool RisingDown = false;
-void RisingControl(){
-	if(vexRT[JoystickRisingUpBtn]){
-		RisingDown = false;
-		if(SensorValue[LeftUpSwitch]) motor[RisingLeft] = 0;
-		else motor[RisingLeft] = 127;
-		if(SensorValue[RightUpSwitch]) motor[RisingRight] = 0;
-		else motor[RisingRight] = 127;
-	}
-	else if(vexRT[JoystickRisingDownBtn]){
-		RisingDown = true;
-		if(SensorValue[LeftDownSwitch]) motor[RisingLeft] = 0;
-		else motor[RisingLeft] = -127;
-		if(SensorValue[RightDownSwitch]) motor[RisingRight] = 0;
-		else motor[RisingRight] = -127;
-	}
-	else if(RisingDown){
-		motor[RisingLeft] = -15;
-		motor[RisingRight] = -15;
-	}
-	else{
-		motor[RisingLeft] = 0;
-		motor[RisingRight] = 0;
-	}
-}
-
-
-
 void BallsControl(){
 	if(autoShoot) return;
 	if(vexRT[JoystickGettingBallsBtn]){
@@ -76,7 +48,6 @@ task usercontrol()
 		if(holdMainTask) continue;
 		AutonomousControl();
 		ChassisControl();
-		RisingControl();
 		ShootingControl();
 		ShootingConfigControl();
 		BallsControl();

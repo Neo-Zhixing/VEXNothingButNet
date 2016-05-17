@@ -1,5 +1,5 @@
 void CalibrateAction(){
-	shootingConfigure->p = 0.1;
+	/*shootingConfigure->p = 0.1;
 	shootingConfigure->i = 0.0005;
 	shootingConfigure->d = 1.5;
 	SetShortShoot();
@@ -48,7 +48,7 @@ void CalibrateAction(){
 		sleep(50);
 	}
 	WaitTillButtonsRelease();
-	SetShortShoot();
+	SetShortShoot();*/
 }
 void Calibrate(){
 	displayLCDCenteredString(1,"Push To Start");
