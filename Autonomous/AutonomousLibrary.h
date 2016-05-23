@@ -31,9 +31,9 @@ void StartGettingBalls(){
 	motor[GettingBalls] = 127;
 	motor[CarringBalls] = 127;
 }
-void StartLosingBalls(){
-	motor[GettingBalls] = -127;
-	motor[CarringBalls] = -127;
+void StartLosingBalls(short power = 127){
+	motor[GettingBalls] = -power;
+	motor[CarringBalls] = -power;
 }
 void StopGettingBalls(){
 	motor[GettingBalls] = 0;
@@ -56,7 +56,13 @@ void BackwardWithBrake(const float quantity = 1.0, const tMovementUnits unitType
 	backward(quantity*0.1,unitType,speed*0.5);
 	forward(quantity*0.05,unitType,speed*0.5);
 }
+bool shootBalls = true;
 void AutonomousShooting(float time,bool shoot = true){
+	if(!shootBalls){
+		if(!shoot)
+			sleep(time*1000);
+		return;
+	}
 	autonomousShoot = true;
     autoShoot = shoot;
     resetTimer(T3);
@@ -68,6 +74,8 @@ void AutonomousShooting(float time,bool shoot = true){
     motor[ShootingRight] = 0;
     motor[ExtendShootingLeft] = 0;
     motor[ExtendShootingRight] = 0;
+    motor[GettingBalls] = 0;
+    motor[CarringBalls] = 0;
     autonomousShoot = true;
 }
 task ShootingBrakeTask(){

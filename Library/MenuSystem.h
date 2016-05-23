@@ -82,7 +82,7 @@ void AutoPos(){
 
 
 const unsigned short pathCount = 3;
-unsigned short path = 2;
+unsigned short path = 1;
 
 void AutoPath(){
     if(nLCDButtons == kButtonRight){
@@ -99,10 +99,10 @@ void AutoPath(){
     string str;
     switch (path) {
         case 1:
-            str = "Path1:Side Balls";
+            str = "1 PushSideNoShoot";
             break;
         case 2:
-            str = "Path2:Back Balls";
+            str = "2 PushBackNoShoot";
             break;
         case 3:
             str = "Path3:Prevent Out";
