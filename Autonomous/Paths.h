@@ -1,64 +1,25 @@
 void path1(){
+	//Shoot the balls first,then push balls.
 	SetLongShoot();
-	AutonomousShooting(3.5);
-	ShootingBrake();
-	FieldBasedTurn(0.2,-100);
-	backward(0.95,seconds,100);
-	FieldBasedTurn(0.32,100);
-
-	StartGettingBalls();
-	forward(0.8,seconds,40);
-	backward(0.3,seconds,30);
-	forward(0.8,seconds,30);
-	sleep(300);
-	StopGettingBalls();
-
-	backward(0.2,seconds,50);
-	FieldBasedTurn(0.4,-100);
-	FieldBasedTurn(0.05,50);
-
-	StartLosingBalls();
-	sleep(1000);
-	StopGettingBalls();
-
-	FieldBasedTurn(0.4,100);
-	forward(0.5,seconds,40);
-
-	BackwardWithBrake(1.1,seconds,100);
-	FieldBasedSetMotor(40,-127);
-	sleep(900);
-
-	backward(1,seconds,100);
-	sleep(1000);
-	StartGettingBalls();
-	forward(4,seconds,50);
+	FieldBasedSetMotor(-127,-127);
+	AutonomousShooting(1,false);
+	FieldBasedSetMotor(-30,-30);
+	AutonomousShooting(0.1,false);
+	FieldBasedSetMotor(0,0);
+	AutonomousShooting(1,true);
 }
 
 void path2(){
-	//Get the balls close to the player standing area.
-	SetLongShoot();
-	AutonomousShooting(3.5);
-	ShootingBrake();
-	FieldBasedTurn(0.02,100);
-	backward(1.4,seconds,100);
-	FieldBasedTurn(0.2,-100);
-
-
-	//Point to the balls
-	StartGettingBalls();
-	forward(2,seconds,50);
-	backward(0.5,seconds,50);
-	forward(1,seconds,60);
-	sleep(300);
-	backward(1.5,seconds,90);
-	StopGettingBalls();
-
-	FieldBasedTurn(0.25,80);
-	StartGettingBalls();
-	forward(1,seconds,100);
-	StopGettingBalls();
-	backward(1,seconds,100);
-	SetShortShoot();
+	//Push the balls close to the player standing area.
+	//FieldBasedTurn(0.03,100);
+	backward(0.95,seconds,100);
+	FieldBasedTurn(0.17,-100);//if red, minus means turn right
+	forward(0.32,seconds,100);
+	FieldBasedSetMotor(127,50);//right, left
+	sleep(470);
+	FieldBasedSetMotor(127,-30);
+	sleep(455);
+	forward(1,seconds,50);
 }
 
 void path3(){

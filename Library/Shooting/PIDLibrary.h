@@ -32,11 +32,18 @@ void MotorSpeedControllerRefresh(MotorSpeedController* controller,bool calibrate
 	controller->rawSensorValue = rawValue;
 	float error = controller->configure->targetSpeed - sensorValue;
 	SensorValue[controller->encoder] = 0;
-	controller->lastError = error;
+
 
 	float offset;
 	if(error > 0)offset = error*error*error * controller->configure->p;
 	else offset = error * 1.5;
+
+
+	float dOffset = (error - controller->lastError)*controller->configure->d;
+	offset = offset+dOffset;
+	controller->lastError = error;
+
+
 	float power = offset + *(controller->targetPower);
 	if(power > 127) power = 127;
 	else if(power < 0) power = 0;
@@ -45,7 +52,7 @@ void MotorSpeedControllerRefresh(MotorSpeedController* controller,bool calibrate
 	motor[controller->extendMotor] = power;
 	controller->power = power;
 
-	if(abs(error) >= 1 &&abs(error) < 3 && calibrate)*(controller->targetPower) += (1/error) * 0.05;
+	//if(abs(error) >= 1 &&abs(error) < 3 && calibrate)*(controller->targetPower) += (1/error) * 0.05;
 	writeDebugStreamLine("%f|%f|%f|%f|%f|%d",error,power,sensorValue,rawValue,*(controller->targetPower),calibrate);
 }
 

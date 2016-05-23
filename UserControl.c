@@ -42,6 +42,7 @@ void ChassisControl()
 task usercontrol()
 {
 	autoShoot = false;
+	autonomousShoot = false;
 	SetShortShoot();
 	while (true)
 	{

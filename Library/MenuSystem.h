@@ -82,7 +82,7 @@ void AutoPos(){
 
 
 const unsigned short pathCount = 3;
-unsigned short path = 1;
+unsigned short path = 2;
 
 void AutoPath(){
     if(nLCDButtons == kButtonRight){

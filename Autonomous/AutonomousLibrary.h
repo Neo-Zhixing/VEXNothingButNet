@@ -56,14 +56,19 @@ void BackwardWithBrake(const float quantity = 1.0, const tMovementUnits unitType
 	backward(quantity*0.1,unitType,speed*0.5);
 	forward(quantity*0.05,unitType,speed*0.5);
 }
-void AutonomousShooting(float time){
-    autoShoot = true;
+void AutonomousShooting(float time,bool shoot = true){
+	autonomousShoot = true;
+    autoShoot = shoot;
     resetTimer(T3);
     while(getTimer(T3,seconds) <= time){
         ShootingControl();
     }
     autoShoot = false;
-    allMotorsOff();
+    motor[ShootingLeft] = 0;
+    motor[ShootingRight] = 0;
+    motor[ExtendShootingLeft] = 0;
+    motor[ExtendShootingRight] = 0;
+    autonomousShoot = true;
 }
 task ShootingBrakeTask(){
 	motor[ShootingLeft] = -10;

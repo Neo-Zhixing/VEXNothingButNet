@@ -3,8 +3,8 @@ PIDConfigure* shootingConfigure;
 MotorSpeedController leftShootingController;
 MotorSpeedController rightShootingController;
 int shootingMode;
-float LeftMotorLongTargetPower = 42;
-float RightMotorLongTargetPower = 42;
+float LeftMotorLongTargetPower = 38;
+float RightMotorLongTargetPower = 38;
 float LeftMotorShortTargetPower = 35;
 float RightMotorShortTargetPower = 35;
 void SetLongShoot(){
@@ -22,8 +22,9 @@ void SetShortShoot(){
 	shootingMode = 1;
 }
 bool autoShoot = false;
+bool autonomousShoot = false;
 void ShootingInit(){
-	shootingConfigure = NewPIDConfigure(ShortShootP,0,0,2);
+	shootingConfigure = NewPIDConfigure(ShortShootP,0,3,2);
 
 	leftShootingController.configure = shootingConfigure;
 	leftShootingController.motor = ShootingLeft;
@@ -44,7 +45,7 @@ void ShootingInit(){
 bool shootingBrake = true;
 void ShootingControl(){
 	if( getTimer(T1,milliseconds) >= 50){//1
-		if(vexRT[JoystickManuShootBtn] || autoShoot){//2
+		if(vexRT[JoystickManuShootBtn] || autoShoot || autonomousShoot){//2
 			//clearDebugStream();
 			MotorSpeedControllerRefresh(&leftShootingController,!(autoShoot || vexRT[JoystickGettingBallsBtn]));
 			MotorSpeedControllerRefresh(&rightShootingController,!(autoShoot || vexRT[JoystickGettingBallsBtn]));
@@ -56,10 +57,6 @@ void ShootingControl(){
 					motor[CarringBalls] = 127;
 				}
 			}else{//The shooting wheels are not ready
-				if(autoShoot){
-					motor[GettingBalls] = 0;
-					motor[CarringBalls] = 0;
-				}
 				 /*if(SensorValue[BallPosSwitch]){
 				   motor[GettingBalls] = 0;
 				  	motor[CarringBalls] = 0;
@@ -100,11 +97,11 @@ void ShootingControl(){
 void ShootingConfigControl(){
 	if(vexRT[JoystickLongShootBtn]){
 		SetLongShoot();
-		if(!bSoundActive) playTone(1700,300);
+		if(!bSoundActive) playTone(1700,30);
 	}
 	else if(vexRT[JoystickShortShootBtn]){
 		SetShortShoot();
-		if(!bSoundActive) playTone(1300,300);
+		if(!bSoundActive) playTone(1300,30);
 	}
 	else if(vexRT[JoystickAutoShootBtn]){
 		autoShoot = !autoShoot;
