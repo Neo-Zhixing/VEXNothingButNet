@@ -12,14 +12,22 @@ void path1(){
 void path2(){
 	//Push the balls close to the player standing area.
 	//FieldBasedTurn(0.03,100);
-	backward(0.95,seconds,100);
-	FieldBasedTurn(0.17,-100);//if red, minus means turn right
-	forward(0.32,seconds,100);
+	backward(0.90,seconds,100);
+	FieldBasedTurn(0.24,-100);//if red, minus means turn right
 	FieldBasedSetMotor(127,50);//right, left
-	sleep(470);
+	sleep(1050);
 	FieldBasedSetMotor(127,-30);
-	sleep(455);
-	forward(1,seconds,50);
+	sleep(390);
+	forward(1.5,seconds,40);
+
+	//Balls are in the launch area now.
+
+	FieldBasedSetMotor(-127,-30);
+	sleep(800);
+
+
+	FieldBasedTurn(1,40);
+	forward(1.5,seconds,100);
 }
 
 void path3(){
